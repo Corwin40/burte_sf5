@@ -1,6 +1,4 @@
-$op-primary: darken(#428bca, 20%);
-
-$admin-color : linear-gradient(90deg, rgba(28,113,216,1) 0%, rgba(48,200,119,1) 100%);
+$burte-primary: #fc0;
 
 
 //*** ------------- Import Variables of bootstrap ---------------- ***//
@@ -11,6 +9,7 @@ $admin-color : linear-gradient(90deg, rgba(28,113,216,1) 0%, rgba(48,200,119,1) 
 @import "./scss/libs.scss";
 //*** ------------- Import Variables of my theme ---------------- ***//
 @import "./scss/public/header.scss";
+@import "./scss/public/main.scss";
 @import "./scss/public/product.scss";
 //*** ------------- Import Variables of icons ---------------- ***//
 @import '~@fortawesome/fontawesome-free/css/all.css';

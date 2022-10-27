@@ -1,0 +1,24 @@
+main{
+  #filters{
+    .card {
+      border: 1px solid $burte-primary;
+      .card-header {
+        background-color: $burte-primary;
+        color: #fff;
+      }
+      .list-group {
+        border-top: none !important;
+        border-bottom: none !important;
+      }
+    }
+
+    .list-group-item {
+      position: relative;
+      display: block;
+      padding: .5rem 1rem !important;
+      text-decoration: none;
+      background-color: transparent;
+    }
+  }
+
+}
