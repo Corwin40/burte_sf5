@@ -17,11 +17,11 @@
                     .then(function(response) {
                         if(icone.classList.contains('fa-toggle-off')) {
                             icone.classList.replace('fa-toggle-off', 'fa-toggle-on');
-                            icone.classList.replace('text-danger', 'text-success');
+                            icone.classList.replace('text-light', 'text-light');
                         }
                         else {
                             icone.classList.replace('fa-toggle-on', 'fa-toggle-off');
-                            icone.classList.replace('text-success', 'text-danger');
+                            icone.classList.replace('text-light', 'text-light');
                         }
                     });
             }
@@ -36,11 +36,11 @@
                     .then(function(response) {
                         if(icone.classList.contains('far')) {
                             icone.classList.replace('far', 'fas');
-                            icone.classList.replace('text-danger', 'text-success');
+                            icone.classList.replace('text-light', 'text-success');
                         }
                         else {
                             icone.classList.replace('fas', 'far');
-                            icone.classList.replace('text-success', 'text-danger');
+                            icone.classList.replace('text-success', 'text-light');
                         }
                         // partie de code pour afficher le toast d'alerte
                         var option = {
@@ -131,12 +131,31 @@
             <div class="col-10">
                 <div class="card">
                     <div class="card-body">
-                        <h4>Catalogue des produits</h4>
-                        <p>Créer, Modifier ou supprimer des articles du site</p>
+                        <div class="row justify-content-between">
+                            <div class="col-6">
+                                <h4>Catalogue des produits</h4>
+                                <p>Créer, Modifier ou supprimer des articles du site</p>
+                            </div>
+                            <div class="col-4">
+                                {{form_start(form)}}
+                                {# Bannière sur la vignette du bien #}
+                                <div class="row mb-1 g-1 justify-content-end">
+                                    <div class="col-4">
+                                        {{ form_widget(form.word, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        {{ form_widget(form.rechercher) }}
+                                    </div>
+                                    <div class="col-4">
+
+                                    </div>
+                                </div>
+                                {{form_end(form)}}
+                            </div>
+                        </div>
+
                         <div class="navigation">
                             {{ knp_pagination_render(products, 'include/pagination.html.twig') }}
                         </div>
-                        <div class="row" id="liste">
+                        <div class="row g-1" id="liste">
                             {{ include('gestapp/product/include/_liste.html.twig') }}
                         </div>
                         <div class="navigation">
@@ -159,6 +178,5 @@
             </div>
         </div>
     </section>
-
 </div>
 {% endblock %}

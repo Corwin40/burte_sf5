@@ -8,6 +8,7 @@ use App\Entity\Gestapp\ProductCategory;
 use App\Entity\Gestapp\ProductCustomize;
 use App\Entity\Gestapp\ProductNature;
 use App\Form\Gestapp\ProductType;
+use App\Form\Gestapp\SearchProductType;
 use App\Repository\Gestapp\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -33,24 +34,35 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/gestapp/product/", name="op_gestapp_product_index", methods={"GET"})
+     * @Route("/gestapp/product/", name="op_gestapp_product_index", methods={"GET", "POST"})
      */
     public function index(ProductRepository $productRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $natures = $this->getDoctrine()->getRepository(ProductNature::class)->findAll();
-        $categories = $this->getDoctrine()->getRepository(ProductCategory::class)->findAll();
-
         $data = $productRepository->findAll();
         $products = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
-            300
+            18
         );
+
+        $form = $this->createForm(SearchProductType::class, [
+            'action' => $this->generateUrl('op_gestapp_product_index'),
+            'method' => 'POST'
+        ]);
+        $search = $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $data = $productRepository->searchProduct($search->get('word')->getData());
+            $products = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                18
+            );
+        }
 
         return $this->render('gestapp/product/index.html.twig', [
             'products' => $products,
-            'natures' => $natures,
-            'categories' => $categories
+            'form' => $form->createView(),
         ]);
     }
 
@@ -83,6 +95,21 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/gestapp/product/duplicate/{id}", name="op_gestapp_product_duplicate", methods={"GET","POST"})
+     */
+    public function duplicate(Request $request, Product $product, EntityManagerInterface $em): Response
+    {
+        $productduplicate = clone $product;
+        $productduplicate->setName('Copie');
+        $em->persist($productduplicate);
+        $em->flush();
+
+        return $this->redirectToRoute('op_gestapp_product_edit', [
+            'id' => $productduplicate->getId()
+        ]);
+    }
+
+    /**
      * @Route("/webbapp/product/{id}", name="op_gestapp_product_show", methods={"GET"})
      * @param Product $product
      * @param Request $request
@@ -93,6 +120,7 @@ class ProductController extends AbstractController
         $session = $request->getSession()->get('name_uuid');
         // On teste si le panier existe en session
         $cart = $request->getSession()->get('cart');
+
         if($cart){
             //dd($cart);
             // récupération des items du panier
@@ -112,15 +140,12 @@ class ProductController extends AbstractController
                 $em->persist($productCustomize);
                 $em->flush();
 
-                //dd($productCustomize);
-
                 return $this->render('gestapp/product/show.html.twig', [
                     'product' => $product,
                     'session' => $session,
                     'items' => $detailedCart,
                     'customizes' => $productCustomize
                 ]);
-
             }
 
 
@@ -132,10 +157,6 @@ class ProductController extends AbstractController
                 'customizes' => $productCustomize
             ]);
         }
-
-        //dd($format);
-        //$productCustomize->setFormat();
-        //$em->flush();
 
         return $this->render('gestapp/product/show.html.twig', [
             'product' => $product,
@@ -285,15 +306,16 @@ class ProductController extends AbstractController
 
 
     /**
-     * Espace E-Commerce : Liste les produits sur les natures
+     * Espace E-Commerce : Liste les produits selon la nature de ces derniers
      * @Route("/gestapp/product/oneNat/{idnat}", name="op_gestapp_product_onecat", methods={"POST"})
      */
-    public function ListOneNatProduct(Request $request, PaginatorInterface $paginator, $idnat)
+    public function ListOneNatProduct(Request $request, PaginatorInterface $paginator, $idnat, EntityManagerInterface $em)
     {
         $data = $this->getDoctrine()->getRepository(Product::class)->oneNature($idnat);
 
         $nature = $this->getDoctrine()->getRepository(ProductNature::class)->find($idnat);
         $categories = $this->getDoctrine()->getRepository(ProductCategory::class)->findBy(array('Nature'=> $idnat));
+
 
         $products = $paginator->paginate(
             $data,
@@ -347,7 +369,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * Espace E-Commerce : Liste les produits sur les catégories
+     * Espace E-Commerce : Liste les produits selon la catégorie de ces derniers
      * @Route("/gestapp/product/oneCat/{idcat}", name="op_gestapp_product_onecat", methods={"POST"})
      */
     public function ListOneCatProduct(Request $request, PaginatorInterface $paginator, $idcat)
@@ -550,6 +572,18 @@ class ProductController extends AbstractController
         return $this->render('gestapp/product/lastnatproduct.html.twig',[
             'products' => $products,
             'idnat' => $idnat
+        ]);
+    }
+
+    /**
+     * Affiche les produits favoris
+     * @Route("/gestapp/product/favories", name="op_gestapp_product_favories", methods={"POST"})
+     */
+    public function FavoriesProducts(EntityManagerInterface $entityManager)
+    {
+        $products = $entityManager->getRepository(Product::class)->favoriesproducts();
+        return $this->render('gestapp/product/favories.html.twig', [
+            "products" => $products
         ]);
     }
 }

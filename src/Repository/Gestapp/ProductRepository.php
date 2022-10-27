@@ -123,6 +123,7 @@ class ProductRepository extends ServiceEntityRepository
             ->leftJoin('p.producer', 'pr')
             ->leftJoin('pr.structure', 's')
             ->leftJoin('p.productNature', 'n')
+            ->leftJoin('p.ProductCategory', 'c')
             ->leftJoin('p.productUnit', 'pu')
             ->Select('
                 p.id AS id,
@@ -136,6 +137,7 @@ class ProductRepository extends ServiceEntityRepository
                 n.id AS idNature,
                 p.ref AS ref,
                 n.name AS nameNature,
+                c.name AS nameCategory,
                 p.isDisponible,
                 p.isStar,
                 p.isOnLine,
@@ -242,6 +244,7 @@ class ProductRepository extends ServiceEntityRepository
             ->leftJoin('p.producer', 'pr')
             ->leftJoin('pr.structure', 's')
             ->leftJoin('p.productNature', 'n')
+            ->leftJoin('p.ProductCategory', 'c')
             ->Select('
                 p.id AS id,
                 p.name AS name, 
@@ -252,6 +255,7 @@ class ProductRepository extends ServiceEntityRepository
                 p.productName AS productName,
                 n.id AS idNature,
                 n.name AS nameNature,
+                c.name AS nameCategory,
                 p.isDisponible,
                 p.isStar,
                 p.isOnLine,
@@ -316,6 +320,33 @@ class ProductRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->andWhere('p.productNature = :productNature')
             ->setParameter('productNature', $idnat)
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function searchProduct($word){
+        $query = $this->createQueryBuilder('p');
+        //$query->where('p.isOnLine = 1');
+        if($word != null){
+            $query
+                ->andWhere('MATCH_AGAINST(p.name, p.description, p.ref) AGAINST (:word boolean)>0')
+                ->setParameter('word', $word)
+            ;
+        }
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Liste les derniers produits d'une nature.
+     * @return Product[] Returns an array of Product objects
+     */
+    public function favoriesproducts()
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.isStar = 1')
             ->orderBy('p.id', 'DESC')
             ->setMaxResults(4)
             ->getQuery()

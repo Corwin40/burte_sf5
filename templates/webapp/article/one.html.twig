@@ -16,10 +16,10 @@
             <div class="row">
                 <div class="col-12">
                     {% if article.isReadMore == 1 %}
-                        <p class="text-center">{{ article.content|u.truncate(600, ' ...')|raw }}</p>
+                        <p class="text-center">{{ article.content|u.truncate(600, ' ...')|markdown_to_html }}</p>
                         <p class="text-center"><a href="">Lire la suite ...</a></p>
                     {% else %}
-                        <p class="text-center">{{ article.content|raw }}</p>
+                        <p class="text-center">{{ article.content|markdown_to_html }}</p>
                     {% endif %}
                 </div>
                 {% if article.isLink %}
@@ -30,17 +30,17 @@
             </div>
         {% elseif article.articleFrontName is not null and article.articleFrontPosition == 'right' %}
             <div class="row">
-                <div class="col-9">
+                <div class="col-12 col-md-6 col-lg-9 col-xl-9 col-xxl-9">
                     {% if article.isReadMore == 1 %}
-                        {{ article.content|u.truncate(600, ' ...')|raw }}
+                        {{ article.content|u.truncate(600, ' ...')|markdown_to_html }}
                     {% else %}
-                        {{ article.content|raw }}
+                        {{ article.content|markdown_to_html }}
                     {% endif %}
                     {% if article.isLink %}
                         <a class="btn btn-change" href="/page/{{ article.linkPage|lower }}">{{article.linktext}}</a>
                     {% endif %}
                 </div>
-                <div class="col-3">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
                     <div class="position-relative">
                         <!-- Image -->
                         <img src="{{ vich_uploader_asset(article, 'articleFrontFile', 'App\\Entity\\Webapp\\article') }}" alt="{{ article.articleFrontName }}" class="img-fluid d-block">
@@ -55,7 +55,7 @@
             </div>
         {% elseif article.articleFrontName is not null and article.articleFrontPosition == 'left' %}
             <div class="row">
-                <div class="col-3">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
                     <div class="position-relative">
                         <!-- Image -->
                         <img src="{{ vich_uploader_asset(article, 'articleFrontFile', 'App\\Entity\\Webapp\\article') }}" alt="{{ article.articleFrontName }}" class="img-fluid d-block">
@@ -67,11 +67,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-9">
+                <div class="col-12 col-md-6 col-lg-9 col-xl-9 col-xxl-9">
                     {% if article.isReadMore == 1 %}
-                        {{ article.content|u.truncate(600, ' ...')|raw }}
+                        {{ article.content|u.truncate(600, ' ...')|markdown_to_html }}
                     {% else %}
-                        {{ article.content|raw }}
+                        {{ article.content|markdown_to_html }}
                     {% endif %}
                     {% if article.isLink %}
                         <a class="btn btn-change" href="/page/{{ article.linkPage|lower }}">{{article.linktext}}</a>
@@ -83,9 +83,9 @@
                 <div class="col-12">
                     <div>
                         {% if article.isReadMore == 1 %}
-                            <p class="text-center">{{ article.content|u.truncate(600, ' ...')|raw }}</p>
+                            <p class="text-center">{{ article.content|u.truncate(600, ' ...')|markdown_to_html }}</p>
                         {% else %}
-                            <p class="text-center">{{ article.content|raw }}</p>
+                            <p class="text-center">{{ article.content|markdown_to_html }}</p>
                         {% endif %}
                         {% if article.isLink %}
                             <a class="btn btn-change" href="/page/{{ article.linkPage|lower }}">{{article.linktext}}</a>
@@ -123,9 +123,9 @@
                 <div class="col-12">
                     <div>
                         {% if article.isReadMore == 1 %}
-                            <p>{{ article.content|u.truncate(600, ' ...')|raw }}</p>
+                            <p>{{ article.content|u.truncate(600, ' ...')|markdown_to_html }}</p>
                         {% else %}
-                            <p>{{ article.content|raw }}</p>
+                            <p>{{ article.content|markdown_to_html }}</p>
                         {% endif %}
                         {% if article.isLink %}
                         <a class="btn btn-change" href="/page/{{ article.linkPage|lower }}">{{article.linktext}}</a>

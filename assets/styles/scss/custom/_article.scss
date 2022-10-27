@@ -1,0 +1,27 @@
+.btn-blue {
+  border-color: $sm-primary-color !important;
+  color: $sm-primary-color;
+  font-family: Montserrat,sans-serif;
+  font-size: 1.3rem;
+  width: 100%;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 0 0;
+  font-weight: 700;
+  background-color: transparent;
+  margin-bottom: .2rem;
+  margin-top: 0;
+}
+.btn-blue::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  color: #fff;
+  top: 0;
+  left: 0;
+  width: 0;
+  z-index: -1;
+  transition: all .3s;
+  background-color: #142864;
+}

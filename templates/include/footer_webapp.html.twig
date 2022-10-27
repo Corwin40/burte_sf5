@@ -4,36 +4,33 @@
             <div class="col-md-3 col-sm-3 col-xl-3">
                 <div class="row d-flex justify-content-center">
                     <div id="overlay_logo" class="col-8 my-4">
-                        <img class="img-fluid" src="{{ asset('images/home_front/LOGO-fondblanc.png') }}">
+                        <img class="img-fluid" src="{{ vich_uploader_asset(parameter, 'logoFile') }}">
                     </div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-3">
                 <h3>Plan du site</h3>
-                <p>
-                    <a>- Accueil</a><br>
-                    <a>- Boutique</a><br>
-                    <a>- Contact</a><br>
-                    <a>- Mention légales</a><br>
-                    <a>- Politique de confidentialité</a><br>
-                    <a>- Conditions générales de Ventes</a>
-                </p>
+                <ul>
+                    {% for page in pages %}
+                        <li><a href="{{ path('op_webapp_page_slug', {'slug':page.slug}) }}">{{ page.name }}</a></li>
+                    {% endfor %}
+                </ul>
             </div>
             <div class="col-md-3 col-sm-3">
 
             </div>
             <div class="col-md-3 col-sm-3">
-                <h3>Contacts</h3>
-                <p>La ferme de burte<br>Mélanie MARTIN<br>Lieu dit de Burte<br>40280 SAINT PIERRE DU MONT</p>
-                <p>contact@fermedeburte.fr</p>
+                <h3>Contact</h3>
+                <p>Soeur Marie<br>MARIA BAMBINA<br>8 rue du Midi<br>65100 LOURDES</p>
+                <p>soeur.marie@cartesdeprière.fr</p>
             </div>
         </div>
     </div>
     <div class="row d-lg-none">
         <div class="col-md-12 col-sm-12">
             <h3>Contacts</h3>
-            <p>La ferme de burte<br>Mélanie MARTIN<br>Lieu dit de Burte<br>40280 SAINT PIERRE DU MONT</p>
-            <p>contact@fermedeburte.fr</p>
+            <p>Soeur Marie<br>MARIE BAMBINA<br>8 rue du midi<br>65100 LOURDES</p>
+            <p>soeurmarie@cartesdeprière.fr</p>
         </div>
     </div>
     {{ render(controller('App\\Controller\\Admin\\FooterController::footerbottom')) }}

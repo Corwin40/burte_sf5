@@ -58,11 +58,8 @@
                             {% endif %}
                         </li>
                     {% endfor %}
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="panier" href="{{ path('op_webapp_cart_showcart')}}">
-                            <i class="fas fa-shopping-cart"></i>
-                            Panier ({{ cartService.detailedCartItem|length }})
-                        </a>
+                    <li id="li_panier" class="nav-item">
+                    {{ include('include/_panier.html.twig')}}
                     </li>
                     {% if app.user %}
                     <li class="nav-item dropdown">
@@ -161,7 +158,7 @@
     <div id="bloc_prez" class="" data-aos="fade-up">
         <div class="row" style="padding-left: 4rem">
             <div id="overlay_logo" class="col-md-12 d-none d-md-block">
-                <p class="text-start"><img class="img-fluid" src="{{ vich_uploader_asset(parameter, 'logoFile') }}" alt="carte_de_priere" height="200px"> </p>
+                <p class="text-start"><img class="img-fluid" src="{{ vich_uploader_asset(parameter, 'logoFile') }}" alt="carte_de_priere"> </p>
             </div>
         </div>
     </div>

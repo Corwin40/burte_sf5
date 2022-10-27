@@ -4,7 +4,7 @@
             Il y a actuellement {{ products.getTotalItemCount }} produits listés.
         </div>
     </div>
-    <div class="col-12 col-lg-6">
+    <div class="col-12 col-lg-12 pe-0">
         <div class="navigation">
             {{ knp_pagination_render(products, 'include/pagination.html.twig', {}, {
                 'align': 'right',
@@ -16,7 +16,7 @@
 </div>
 <div class="row">
     {% for product in products %}
-        <div class="col-6 col-lg-3 g-1">
+        <div class="col-6 col-lg-3 g-2">
             <!-- Card -->
             <div id="productCard" class="card lift lift-lg mb-6 mb-xl-0 shadow-light-lg">
                 <!-- Image -->
@@ -42,13 +42,28 @@
                 <div class="card-body" href="{{ path('op_gestapp_product_show', {'id': product.id}) }}">
                     <!-- Heading -->
                     <h3 class="product-title">{{ product.name }}</h3>
-
-
+                    {#
+                    <div class="mb-0 text-muted" style="font-size: 11px">
+                        <!-- Text -->
+                        {{ product.description|u.truncate(70, ' ...')|raw }}
+                    </div>
+                    #}
                     <div class="row align-items-center mt-1 mb-1" style="font-size: 11px">
-                        <div class="col-12">
-                            <p class="product-subtitle"> <img src="{{ vich_uploader_asset(product, 'logoStructureFile', 'App\\Entity\\Admin\\Structure') }}" alt="{{ product.logoStructureName }}" class="avatar-img rounded-circle" style="width:20px; height:20px"> {{ product.producer }}</p>
+                        <div class="col-6">
+                            <p class="product-subtitle"> Réf : {{ product.ref }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="product-subtitle text-end">{{ product.price|number_format(2, ',', ' ') }}€ </p>
                         </div>
                     </div>
+                    {#
+                    {% if product.nameCategory is null %}
+                    {% else %}
+                    <div>
+                        <p><span class="badge bg-secondary">{{ product.nameCategory }}</span></p>
+                    </div>
+                    {% endif %}
+                    #}
                 </div>
                 <!-- Meta -->
                 <div class="card-meta">
@@ -56,10 +71,11 @@
                     <hr class="card-meta-divider">
                     <!-- Avatar -->
                     <div class="avatar avatar-sm me-2">
+                        <img src="{{ vich_uploader_asset(product, 'logoStructureFile', 'App\\Entity\\Admin\\Structure') }}" alt="{{ product.logoStructureName }}" class="avatar-img rounded-circle" style="width:20px; height:20px">
                     </div>
                     <!-- Producer -->
                     <h6 class="text-muted me-2 mb-0" style="font-size: 11px;">
-                        {{ product.price|number_format(2, ',', ' ') }}€
+                        {{ product.producer }}
                     </h6>
                     <!-- Cart -->
                     <a href="{{ path('op_webapp_cart_add', {'id': product.id}) }}" class="mb-0 ms-auto btn btn-sm btn-outline-sm">
@@ -76,7 +92,7 @@
     {% endfor %}
 </div>
 <div class="row mt-1">
-    <div class="col-12">
+    <div class="col-12 col-lg-12 pe-0">
         <div class="navigation">
             {{ knp_pagination_render(products, 'include/pagination.html.twig', {}, {
                 'align': 'right',

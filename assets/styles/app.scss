@@ -1,4 +1,8 @@
-$burte-primary: #fc0;
+$op-primary: darken(#428bca, 20%);
+$sm-primary-color: #142864;
+$sm-secondary-color: #f56d0c;
+$sm-bluebridge: #A9C4EF;
+$admin-color : linear-gradient(90deg, rgba(28,113,216,1) 0%, rgba(48,200,119,1) 100%);
 
 
 //*** ------------- Import Variables of bootstrap ---------------- ***//
@@ -8,13 +12,17 @@ $burte-primary: #fc0;
 @import './scss/theme.scss';
 @import "./scss/libs.scss";
 //*** ------------- Import Variables of my theme ---------------- ***//
-@import "./scss/public/header.scss";
-@import "./scss/public/main.scss";
-@import "./scss/public/product.scss";
+@import "assets/styles/scss/custom/header";
+@import "assets/styles/scss/custom/product";
+@import "assets/styles/scss/custom/filters";
+@import "assets/styles/scss/custom/cart";
+@import "assets/styles/scss/custom/section";
+@import "./scss/custom";
 //*** ------------- Import Variables of icons ---------------- ***//
 @import '~@fortawesome/fontawesome-free/css/all.css';
 @import '~bootstrap-icons/font/bootstrap-icons.css';
 //*** ------------- Import mixins ---------------- ***//
 @import "scss/mixins/fontface";
-@include fontface('Monserrat-light', '../../fonts/Montserrat/montserrat-light', 300, normal);
+@include fontface('Tangerine', '../../fonts/Tangerine/tangerine', 300, normal);
+@include fontface('Aller-Light', '../../fonts/Aller/Aller-Light', 300, normal);
 @include fontface('CerebriSans-light', '../../fonts/Cerebri-Sans/CerebriSans-Light', 300, normal);
