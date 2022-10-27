@@ -23,9 +23,7 @@ ol, ul, dl {
 	border-top-right-radius: 0;
 }
 //*** ------------- Product card in admin ---------------- ***//
-#product .card {
-	border: 1px solid $op-blue;
-}
+
 #product .card > .card-body {
 	min-height: 210px;
 	max-height: 210px;
@@ -36,10 +34,7 @@ ol, ul, dl {
 #product .card-footer:last-child {
 	border-radius: 0 0 0 0;
 }
-#product .card > .card-footer {
-	background-color: $op-blue;
-	border-top: 1px solid $op-blue;
-}
+
 
 #product .card > .card-footer p {
 	margin-bottom: 0;
